@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>Priyadharshini Jagadeesan - Portfolio Slideshow</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            overflow: auto; /* Allow vertical scrolling */
+        }
+
+        header {
+            background-color: #00796b;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #004d40;
+            padding: 10px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+        }
+
+        nav button {
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            margin: 5px;
+            border-radius: 5px;
+            flex: 1 1 auto; /* Allow buttons to shrink and grow */
+        }
+
+        nav button:hover {
+            background-color: #004d40;
+        }
+
+        .slideshow-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items at the top */
+            position: relative;
+            overflow: auto; /* Allow scrolling for content overflow */
+            background-color: #e0f2f1;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .slide {
+            display: none;
+            flex-direction: row; /* Align image and content horizontally */
+            align-items: center; /* Vertically center the content */
+            justify-content: flex-start;
+            text-align: left;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-y: auto; /* Enable scrolling within individual slides */
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide img {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #00796b;
+            margin-right: 20px; /* Add space between the image and the content */
+        }
+
+        .slide-content {
+            max-width: 800px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .slide-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        ul {
+            padding-left: 20px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            background-color: #00796b;
+            color: #fff;
+            text-align: center;
+            padding: 0px;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-top: 30px;
+            padding: 20px;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 20px;
+            border: 2px solid #00796b;
+            border-radius: 5px;
+            background-color: #fff;
+            min-width: 300px;
+            max-width: 700px;
+            box-sizing: border-box;
+        }
+
+        .timeline-item h2 {
+            font-size: 1.5rem;
+            color: #00796b;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .timeline-item p {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+		
+		.timeline ul {
+			list-style-type: disc;
+			padding-left: 20px; /* Adjust as needed */
+			margin: 0;
+		}
+
+        .timeline-item ul li {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item:hover {
+            background-color: #f1f8f6;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+    .slide {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+    }
+
+    .slide img {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 20px auto;
+    }
+
+    .slide-content {
+        width: 100%;
+        padding: 0 15px;
+        text-align: center;
+    }
+
+     .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
+        padding: 10px;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .timeline-item {
+        width: auto;
+        min-width: unset;
+        margin: 0;
+        padding: 15px;
+    }
+	
+	#experience .slide-content h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Ensure content uses full width */
+    #experience .slide-content {
+        width: 100%;
+        padding: 0;
+    }
+
+    nav {
+        padding: 5px;
+    }
+
+    nav button {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        margin: 3px;
+        flex: 1 1 calc(33.33% - 6px);
+        min-width: 100px;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header p {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .slide-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .slide-content p, 
+    .slide-content ul {
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .modal-content {
+        max-width: 95%;
+        max-height: 80vh;
+        margin: 10vh auto;
+		margin-top: 100px;
+    }
+
+    .prev, .next {
+        padding: 10px;
+        font-size: 24px;
+    }
+	
+	#experience {
+        padding-left: 0 !important; /* Override inline style */
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide {
+        padding: 10px 5px;
+		margin-right: 20px;
+    }
+
+    .slide img {
+        width: 150px;
+        height: 150px;
+    }
+
+    nav button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        flex: 1 1 calc(50% - 6px);
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .slide-content h1 {
+        font-size: 1.5rem;
+    }
+
+   #experience {
+        padding: 5px !important;
+    }
+
+    .timeline {
+        padding: 5px;
+    }
+
+    .timeline-item {
+        padding: 12px;
+    }
+
+    /* Adjust text sizes for better readability */
+    .timeline-item h2 {
+        font-size: 1.2rem;
+        margin-bottom: 8px;
+    }
+
+    .timeline-item p {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .timeline-item ul {
+        padding-left: 15px;
+    }
+
+    .timeline-item ul li {
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+    }
+    .modal-content {
+        max-width: 98%;
+        margin: 15vh auto;
+    }
+
+    .close {
+        right: 15px;
+        top: 15px;
+    }
+}
+
+/* Add this to ensure smooth transitions */
+.slide, .slide img, .slide-content {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ensure content doesn't overflow on small screens */
+.slideshow-container {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Improve modal responsiveness */
+.modal {
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+/* Ensure images scale properly */
+img {
+    max-width: 100%;
+    height: auto;
+}
+		
+		/* modal */
+		/* Modal container */
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed;
+			z-index: 1000;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.8); /* Black background with transparency */
+		}
+
+		/* Modal content (the image) */
+		.modal-content {
+			display: block;
+			margin: auto;
+			position: relative;
+			max-width: 80%; /* Limit the image size */
+			max-height: 80%; /* Fit the modal */
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow to the image */
+			border-radius: 8px;
+			margin-top: 100px;
+		}
+
+		/* Close button */
+		.close {
+			position: absolute;
+			top: 20px;
+			right: 30px;
+			color: white;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: #ccc;
+			text-decoration: none;
+		}
+
+		.prev, .next {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			width: auto;
+			margin-top: -50px;
+			color: white;
+			font-weight: bold;
+			font-size: 30px;
+			transition: 0.3s;
+			user-select: none;
+		}
+
+		.prev {
+			left: 0;
+		}
+
+		.next {
+			right: 0;
+		}
+
+		.modal-content, .prev, .next {
+			transition: 0.6s ease;
+		}
+		
+		/ * eye icon */
+		.view-images i {
+			color: #007bff;        /* Icon color */
+			font-size: 4px;       /* Smaller font size for the icon */
+			margin-left: 0px;      /* Adjust spacing from the text */
+			vertical-align: middle; /* Align the icon with the text */
+			cursor: pointer;       /* Show pointer on hover */
+			transition: color 0.3s;
+		}
+
+		.view-images i:hover {
+			color: #0056b3; /* Slightly darker color on hover */
+		}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Priyadharshini Jagadeesan</h1>
+        <p>Software Developer | Passionate Writer | Creative Problem-Solver</p>
+    </header>
+
+    <nav>
+        <button onclick="showSlide('about')">About Me</button>
+        <button onclick="showSlide('skills')">Skills</button>
+        <button onclick="showSlide('experience')">Experience</button>
+		<button onclick="showSlide('projects')">Projects</button>
+		<button onclick="showSlide('writings')">Stories and Reflections</button>
+        <button onclick="showSlide('education')">Education</button>        
+        <button onclick="showSlide('contact')">Contact</button>
+    </nav>
+
+    <div class="slideshow-container">
+        <div class="slide active" id="about" style = "text-align: center;padding-left:90px;">
+            <img src="https://github.com/dharshini19696/portfolio/blob/main/A_professional_and_confident_young_Indian_woman_in.jpg?raw=true" alt="Priyadharshini Jagadeesan" style = "margin-top:40px;">
+            <div class="slide-content">                
+                <h1>Welcome to My Portfolio</h1>
+                <p>Hello! I’m Priyadharshini, a software developer and writer passionate about crafting impactful solutions and meaningful content. I have a proven track record of leading projects, building dynamic web applications, and sharing thoughts through articles and poetry. Let’s explore my journey together!</p>
+            </div>
+        </div>
+
+        <div class="slide" id="skills" style = "text-align: left;padding-left:90px;">
+		<img src="https://github.com/dharshini19696/portfolio/blob/main/Updated_Skills_Illustration.jpeg?raw=true" alt="skills" style = "margin-top:45px;">
+            <div class="slide-content">
+                <h1 style = "text-align: center">Skills & Expertise</h1>
+                <ul>
+                    <li><p><strong>Business Analysis & Project Management:</strong> Expert in client interaction, stakeholder coordination, and project delivery.</p></li>
+                    <li><p><strong>Technical Skills:</strong> Proficient in PHP (Laravel), JavaScript, Node.js, MySQL, AJAX, REST API, Git, Bitbucket, JIRA.</p></li>
+                    <li><p><strong>Soft Skills:</strong> Strong communicator with excellent time management and problem-solving abilities.</p></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide" id="experience" style = "text-align: left;padding-left:250px;">
+            <div class="slide-content">
+                <h1 style = "text-align: center">Experience</h1>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h2>Webnox Technologies</h2>
+                        <p><strong>Web Developer cum Team Lead</strong> | March 2022 - Present | Coimbatore</p>
+                        <ul>
+                            <p><li>Delivered functional and user-friendly web platforms with cutting-edge technologies.</li></p>
+                            <p><li>Enhanced client satisfaction by optimizing and ensuring the reliability of system performance.</li></p>
+                            <p><li>Led teams and facilitated the coordination of development activities to successfully achieve project objectives.</li></p>
+                        </ul>
+                    </div>
+                    <div class="timeline-item">
+                        <h2>Accenture Solutions Pvt ltd</h2>
+                        <p><strong>Associate Software Engineer</strong> | 2017 - 2018 | Chennai</p>
+                        <ul>
+                            <p><li>Ensured quality and functionality of software solutions through meticulous manual testing.</li></p>
+                            <p><li>Collaborated with cross-functional teams to identify and fix defects, boosting system reliability.</li></p>
+                            <p><li>Played a key role in delivering reliable software, thereby improving the overall user experience.</li></p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>        
+
+        <div class="slide" id="projects" style="text-align: left; padding-left: 90px;">
+			<img src="https://github.com/dharshini19696/portfolio/blob/main/projects_section_highlighted.jpg?raw=true" alt="Projects" style="margin-top: 45px;">
+			<div class="slide-content">
+				<h1 style="text-align: center;">Projects</h1>
+				<ul>
+					<li>
+						<p><strong>Driving School Management Software:</strong> Streamlined the driving education process by managing students, instructors, schedules, and course progress efficiently.
+						<a href="#" class="view-images" data-images="Captureds1.PNG?raw=true,screencapture-admin-projectsideaboxdigital-io-in-dashboard-2024-12-22-18_32_59.png?raw=true,screencapture-admin-projectsideaboxdigital-io-in-students-list-2024-12-22-18_33_51.png?raw=true,screencapture-admin-projectsideaboxdigital-io-in-instructors-2024-12-22-18_34_36.png?raw=true">
+							<!-- <i class="fas fa-images" title="View Images"></i> -->
+						</a></p>
+					</li>
+					<li>
+						<p><strong>Job Portal Application:</strong> Developed a platform to connect job seekers with employers, featuring advanced job search, application tracking, and profile management.
+						<a href="#" class="view-images" data-images="screencapture-spearwin-admin-home-2024-12-22-16_58_05.png?raw=true">
+							<!-- <i class="fas fa-images" title="View Images"></i> -->
+						</a></p>
+					</li>
+					<li>
+						<p><strong>Dropshipping Solution:</strong> Built software to streamline order processing, inventory management, shipping, and payment integration for e-commerce businesses.
+						<a href="#" class="view-images" data-images="screencapture-admin-deeprintz-admin-2024-12-22-17_03_13.png?raw=true">
+							<!-- <i class="fas fa-images" title="View Images"></i> -->
+						</a></p>
+					</li>
+					<li>
+						<p><strong>Gemstone E-Commerce Platform:</strong> Created an efficient platform with an admin dashboard to manage products, orders, stock, payments, and delivery.
+						<a href="#" class="view-images" data-images="screencapture-eloragems-admin-2024-12-22-17_30_54.png?raw=true">
+							<!-- <i class="fas fa-images" title="View Images"></i> -->
+						</a></p>
+					</li>
+					<li>
+						<p><strong>Buy and Sell Cars:</strong> Developed an online marketplace enabling users to buy and sell used cars, providing a one-stop solution for vehicle searches and transactions.
+						<a href="#" class="view-images" data-images="">
+							<!-- <i class="fas fa-images" title="View Images"></i> -->
+						</a></p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div class="slide" id="writings" style="text-align: left; padding-left: 90px;">
+			<img src="https://github.com/dharshini19696/portfolio/blob/main/writings_section_image%20(1).jpg?raw=true" alt="Writings" style="margin-top: -269px;">
+			<div class="slide-content">
+				<h1 style="text-align: center;">Stories and Reflections</h1>
+				<p>
+					I am deeply passionate about writing, using my words to shed light on human emotions, society, and the beauty of nature. 
+					Through my articles, I aim to spark conversations about current events, ethical values, and the intricacies of human connections.
+				</p>
+				<h2 style="margin-top: 20px;">LinkedIn Newsletter</h2>
+				<p>
+					I host a weekly newsletter, <strong>"Priya Talks"</strong>, on LinkedIn, where I share thought-provoking insights and reflections on topics 
+					like empathy, climate change, and the wonders of the natural world.
+				</p>
+				<h2 style="margin-top: 20px;">Articles and Reflections</h2>
+				<p>
+					From exploring human emotions to analyzing societal trends, my writings reflect my journey to inspire, inform, and engage readers. 
+					Whether it's a poem about sunrise or a discussion on global events, I craft content that resonates with diverse audiences.
+				</p>
+				<p style="margin-top: 20px;">
+					<strong>Explore my writings:</strong>
+					<ul>
+						<li><a href="https://www.linkedin.com/newsletters/priya-talks-7212776482941648896/" target="_blank">Priya Talks on LinkedIn</a></li>
+						<li><a href="https://www.linkedin.com/pulse/overcoming-internal-struggles-race-self-improvement-jagadeesan-qc75c/" target="_blank">Featured Articles</a></li>
+					</ul>
+				</p>
+			</div>
+		</div>
+
+		
+		<div class="slide" id="education" style = "text-align: left;padding-left:90px;">
+		<img src="https://github.com/dharshini19696/portfolio/blob/main/education_section_prominent_hat.jpg?raw=true" alt="skills" style = "margin-top:45px;">
+            <div class="slide-content">
+                <h1 style = "text-align: center">Education</h1>
+                <ul>
+                    <li><strong>Sri Krishna College of Technology</strong><br>
+                    Bachelor of Engineering (Electronics and Communication Engineering)</li><br>
+                    <li><strong>Achievements:</strong><br>
+                    - Gold Medalist at Anna University<br>
+                    - Recognized for outstanding academic performance and exceptional achievements.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide" id="contact" style = "text-align: left;padding-left:90px;">
+		<img src="https://github.com/dharshini19696/portfolio/blob/main/contact.jpg?raw=true" alt="skills" style = "margin-top:45px;">
+            <div class="slide-content">
+                <h1 style="text-align: center;">Contact Me</h1>
+				<p>If you’d like to connect, please feel free to reach out via email or social media. Let’s create something amazing together!</p>
+				<a href="mailto:dharshini19696@gmail.com" style="text-decoration: none; margin-right: 15px;">
+					<i class="fas fa-envelope" style="color: #333; font-size: 1.5em;"></i>
+					<span style="vertical-align: middle; margin-left: 5px;">Email</span>
+				</a>
+				<a href="https://www.linkedin.com/in/priyadharshini-jagadeesan" target="_blank" rel="noopener" style="text-decoration: none;">
+					<i class="fab fa-linkedin" style="color: #0077B5; font-size: 1.5em;"></i>
+					<span style="vertical-align: middle; margin-left: 5px;">LinkedIn</span>
+				</a>               
+            </div>
+        </div>
+    </div>
+	
+	<!-- Popup Modal -->
+	<div id="imageModal" class="modal">
+		<span class="close">&times;</span>
+		<img class="modal-content" id="modalImage">
+		<a class="prev">&#10094;</a>
+		<a class="next">&#10095;</a>
+	</div>
+
+    <footer>
+        <p>&copy; 2024 Priyadharshini Jagadeesan. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function showSlide(slideId) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+
+            const targetSlide = document.getElementById(slideId);
+            if (targetSlide) {
+                targetSlide.classList.add('active');
+            }
+        }
+		document.addEventListener("DOMContentLoaded", () => {
+			const modal = document.getElementById("imageModal");
+			const modalImg = document.getElementById("modalImage");
+			const closeBtn = document.querySelector(".close");
+			const prevBtn = document.querySelector(".prev");
+			const nextBtn = document.querySelector(".next");
+
+			let currentImages = [];
+			let currentIndex = 0;
+
+			// Show modal with images
+			document.querySelectorAll(".view-images").forEach(link => {
+				link.addEventListener("click", event => {
+					event.preventDefault();
+					currentImages = link.getAttribute("data-images").split(",");
+					currentIndex = 0;
+					showImage();
+					modal.style.display = "block";
+				});
+			});
+
+			// Close modal
+			closeBtn.addEventListener("click", () => {
+				modal.style.display = "none";
+			});
+
+			// Navigate to previous image
+			prevBtn.addEventListener("click", () => {
+				currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+				showImage();
+			});
+
+			// Navigate to next image
+			nextBtn.addEventListener("click", () => {
+				currentIndex = (currentIndex + 1) % currentImages.length;
+				showImage();
+			});
+
+			// Show current image
+			function showImage() {
+				modalImg.src = `https://github.com/dharshini19696/portfolio/blob/main/${currentImages[currentIndex]}`;
+			}
+		});
+    </script>
+</body>
+</html>
