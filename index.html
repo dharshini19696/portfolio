@@ -670,10 +670,12 @@ img {
 	</div>
 
     <footer>
-        <p>&copy; 2024 Priyadharshini Jagadeesan. All rights reserved.</p>
+        <p>&copy; <span id="currentYear"></span> Priyadharshini Jagadeesan. All rights reserved.</p>
     </footer>
 
     <script>
+    const currentYear = new Date().getFullYear();    
+    document.getElementById('currentYear').textContent = currentYear;
         function showSlide(slideId) {
             const slides = document.querySelectorAll('.slide');
             slides.forEach(slide => slide.classList.remove('active'));
